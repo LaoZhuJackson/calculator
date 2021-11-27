@@ -381,14 +381,41 @@ public class gui extends JFrame implements ActionListener {
 
 
     private void handleBackspace() {
-
+        String text=resultText.getText();
+        int i =text.length();
+        if (i>0){
+            if (text.substring(text.length()-1).contains("*/")){//如果最后一位是*//运算符
+                temp_num=null;
+                temp_operator=null;
+                temp_num_isEmpty=true;
+                calculationArrayList= (ArrayList<String>) calculationArrayList.subList(0,calculationArrayList_temp.size()-1);
+                text=text.substring(0,i-1);
+            }else if (text.substring(text.length()-1).contains("+-")){
+                calculationArrayList= (ArrayList<String>) calculationArrayList.subList(0,calculationArrayList_temp.size()-1);
+                calculationArrayList_temp= (ArrayList<String>) calculationArrayList_temp.subList(0,calculationArrayList_temp.size()-1);
+                text=text.substring(0,i-1);
+            }else{//为数字
+                text=text.substring(0,i-1);
+            }
+            if (text.length()==0){
+                handleCE();
+            }else{
+                resultText.setText(text);
+            }
+        }
     }
 
     private void handleCE() {
-
+        resultText.setText("0");
+        firstDigit=true;
+        operator="none";
+        calculationArrayList_temp.clear();
+        calculationArrayList.clear();
     }
 
     private void handleC() {
-
+        handleCE();
+        hisArea.setText("None...");
+        memoryArea.setText("None...");
     }
 }
